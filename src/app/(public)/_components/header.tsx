@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -9,9 +11,56 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { LogIn, Menu } from "lucide-react";
+import { useState } from "react";
 
 export function Header() {
+  const [open, setOpen] = useState(false);
+  const session = true;
+
+  const navItems = [
+    {
+      label: "Profissionais",
+      href: "#",
+    },
+    {
+      label: "Sobre",
+      href: "#t",
+    },
+    {
+      label: "Contato",
+      href: "#tu",
+    },
+  ];
+
+  const NavLinks = () => (
+    <>
+      {navItems.map((item) => (
+        <Button
+          asChild
+          key={item.href}
+          className="text-black hover:bg-transparent bg-transparent shadow-none"
+          onClick={() => setOpen(false)}
+        >
+          <Link href={item.href}>{item.label}</Link>
+        </Button>
+      ))}
+
+      {session ? (
+        <Link href="/dashboard" className="">
+          Acessar
+        </Link>
+      ) : (
+        <Button asChild className="">
+          <Link href="/login">
+            <LogIn />
+            Fazer login
+          </Link>
+        </Button>
+      )}
+    </>
+  );
+
   return (
     <header className="fixed top-0 left-0 right-0 z-[999] py-4 px-6 bg-white">
       <div className="container mx-auto  flex items-center justify-between">
@@ -19,11 +68,11 @@ export function Header() {
           Odonto<span className="text-emerald-500">Pro</span>
         </Link>
 
-        <nav className="hidden  md:flex justify-center">
-          <a href="#">Profissionais</a>
+        <nav className="hidden  md:flex justify-center items-center space-x-4">
+          <NavLinks />
         </nav>
 
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild className="md:hidden">
             <Button
               className="text-black hover:bg-transparent"
@@ -40,8 +89,8 @@ export function Header() {
             <SheetTitle>Menu</SheetTitle>
             <SheetHeader></SheetHeader>
             <SheetDescription>Profissionais</SheetDescription>
-            <nav className="">
-              <a href="#">Profissionais</a>
+            <nav className="flex flex-col space-y-4 mt-6">
+              <NavLinks />
             </nav>
           </SheetContent>
         </Sheet>
