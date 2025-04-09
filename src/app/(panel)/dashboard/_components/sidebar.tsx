@@ -29,7 +29,6 @@ import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  console.log(pathname);
 
   return (
     <div className="flex min-h-screen w-full">
@@ -83,7 +82,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <SidebarLink
               href="/dashboard/profile"
               icon={<Settings className="w-5 h-5" />}
-              label="Consultas"
+              label="Meu Perfil"
               pathname={pathname}
               isCollapsed={isCollapsed}
             />
@@ -124,7 +123,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <SidebarLink
                 href="/dashboard/profile"
                 icon={<Settings className="w-5 h-5" />}
-                label="Consultas"
+                label="Meu Perfil"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
               />
@@ -150,7 +149,11 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
           <Sheet>
             <div className="flex items-center gap-4">
               <SheetTrigger asChild>
-                <Button variant="outline" className="md:hidden ">
+                <Button
+                  variant="outline"
+                  className="md:hidden "
+                  onClick={() => setIsCollapsed(false)}
+                >
                   <List className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
