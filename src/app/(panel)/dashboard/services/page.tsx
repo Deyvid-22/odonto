@@ -1,7 +1,10 @@
-export default function Service() {
-  return (
-    <div>
-      <h1>Service</h1>
-    </div>
-  );
+import getSession from "@/lib/getSession";
+import { redirect } from "next/navigation";
+import { ServiceContent } from "./_components/service-content";
+
+export default async function Service() {
+  const session = await getSession();
+  if (!session) redirect("/");
+
+  return <ServiceContent userId={session.user?.id as string} />;
 }

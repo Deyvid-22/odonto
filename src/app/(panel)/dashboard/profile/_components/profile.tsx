@@ -37,6 +37,9 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
+import { UpdateProfile } from "../_actions/update_profile";
+import { toast } from "sonner";
+import { formatPhone, extractPhoneNumber } from "@/utils/format-phone";
 
 type UserWithSubscription = Prisma.UserGetPayload<{
   include: {
@@ -98,11 +101,21 @@ export function ProfileContent({ user }: ProfileContentProps) {
   );
 
   async function onSubmit(values: ProfileFormData) {
-    const profileData = {
-      ...values,
-      times: selectedHours,
-    };
-    console.log(profileData);
+    const response = await UpdateProfile({
+      name: values.name,
+      adress: values.adress,
+      phone: values.phone,
+      status: values.status === "active" ? true : false,
+      timeZone: values.timeZone,
+      times: selectedHours || [],
+    });
+
+    if (response.error) {
+      toast.error(response.error);
+      return;
+    }
+
+    toast.success("Perfil atualizado com sucesso!");
   }
 
   return (
@@ -171,7 +184,14 @@ export function ProfileContent({ user }: ProfileContentProps) {
                           Digite seu telefone
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Seu nome" {...field} />
+                          <Input
+                            placeholder="(57) 99999-9999"
+                            {...field}
+                            onChange={(e) => {
+                              const formatValue = formatPhone(e.target.value);
+                              field.onChange(formatValue);
+                            }}
+                          />
                         </FormControl>
                         <FormDescription>
                           Este será o seu telefone visível na plataforma.
