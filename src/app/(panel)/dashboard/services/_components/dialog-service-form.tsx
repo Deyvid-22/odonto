@@ -11,7 +11,7 @@ const formSchema = z.object({
 });
 
 export interface useDialogServiceFormProps {
-  initialValues: {
+  initialValues?: {
     name: string;
     price: string;
     hours: string;
@@ -22,12 +22,11 @@ export interface useDialogServiceFormProps {
 export type DialogServiceFormData = z.infer<typeof formSchema>;
 
 export function useDialogServiceForm({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   initialValues,
 }: useDialogServiceFormProps) {
   const form = useForm<DialogServiceFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: initialValues || {
       name: "",
       price: "",
       hours: "",

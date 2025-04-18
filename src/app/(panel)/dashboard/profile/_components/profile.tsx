@@ -39,7 +39,7 @@ import { cn } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { UpdateProfile } from "../_actions/update_profile";
 import { toast } from "sonner";
-import { formatPhone, extractPhoneNumber } from "@/utils/format-phone";
+import { formatPhone } from "@/utils/format-phone";
 
 type UserWithSubscription = Prisma.UserGetPayload<{
   include: {
