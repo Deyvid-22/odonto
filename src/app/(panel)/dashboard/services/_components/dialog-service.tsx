@@ -24,6 +24,7 @@ import { convertRealToCents } from "@/utils/convert-currency";
 import { createNewService } from "../_actions/create-service";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { updateService } from "../_actions/update-service";
 
 interface DialogServiceProps {
   closeModal: () => void;
@@ -41,6 +42,7 @@ interface DialogServiceProps {
 export function DialogService({
   closeModal,
   initialValues,
+  serviceId,
 }: DialogServiceProps) {
   const form = useDialogServiceForm({ initialValues });
 
@@ -55,6 +57,17 @@ export function DialogService({
     const minutes = parseInt(values.minutes) || 0;
     const duration = hours * 60 + minutes;
 
+    if (serviceId) {
+      await editServiceById({
+        serviceId,
+        name: values.name,
+        priceInCents,
+        duration: duration,
+      });
+
+      return;
+    }
+
     const response = await createNewService({
       name: values.name,
       price: priceInCents,
@@ -68,6 +81,33 @@ export function DialogService({
     }
 
     toast.success("Servico cadastrado com sucesso!");
+    handleCloseModal();
+    router.refresh();
+  }
+
+  async function editServiceById({
+    serviceId,
+    name,
+    priceInCents,
+    duration,
+  }: {
+    serviceId: string;
+    name: string;
+    priceInCents: number;
+    duration: number;
+  }) {
+    const response = await updateService({
+      serviceId,
+      name,
+      price: priceInCents,
+      duration,
+    });
+    setLoading(false);
+    if (response.error) {
+      toast.error(response.error);
+      return;
+    }
+    toast.success("Servico atualizado com sucesso!");
     handleCloseModal();
     router.refresh();
   }

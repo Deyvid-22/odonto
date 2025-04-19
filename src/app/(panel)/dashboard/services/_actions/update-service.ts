@@ -6,6 +6,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
 const formSchema = z.object({
+  serviceId: z.string().min(1, { message: "O  id do serviço é obrigatório" }),
   name: z.string().min(1, { message: "O nome do serviço é obrigatório" }),
   price: z.number().min(1, { message: "O preço é obrigatório" }),
   duration: z.number(),
@@ -13,12 +14,12 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export async function createNewService(formData: FormSchema) {
+export async function updateService(formData: FormSchema) {
   const session = await auth();
 
   if (!session?.user?.id) {
     return {
-      error: "Usuario não encontrado",
+      error: "Falha ao atualizar o serviço",
     };
   }
 
@@ -31,22 +32,23 @@ export async function createNewService(formData: FormSchema) {
   }
 
   try {
-    const newService = await prisma.service.create({
+    await prisma.service.update({
+      where: {
+        id: formData.serviceId,
+        userId: session.user.id,
+      },
       data: {
         name: formData.name,
         price: formData.price,
-        duration: formData.duration,
-        userId: session.user.id,
+        duration: formData.duration < 30 ? 30 : formData.duration,
       },
     });
-
     revalidatePath("/dashboard/services");
-
-    return { data: newService };
-  } catch (error) {
-    console.log(error);
+    return { data: "Service atualizado com sucesso" };
+  } catch {
+    console.log("Falha ao atualizar o serviço");
     return {
-      error: "Ocorreu um erro ao Cadastrar o serviço",
+      error: "Falha ao atualizar o serviço",
     };
   }
 }
