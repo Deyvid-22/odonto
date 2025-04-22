@@ -65,7 +65,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
   const form = useProfileForm({
     name: user.name,
-    adress: user.adress,
+    address: user.address,
     phone: user.phone,
     status: user.status,
     timeZone: user.timeZone,
@@ -110,7 +110,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
   async function onSubmit(values: ProfileFormData) {
     const response = await UpdateProfile({
       name: values.name,
-      adress: values.adress,
+      adress: values.address,
       phone: values.phone,
       status: values.status === "active" ? true : false,
       timeZone: values.timeZone,
@@ -171,7 +171,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
 
                   <FormField
                     control={form.control}
-                    name="adress"
+                    name="address"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="font-semibold mt-2">
@@ -224,7 +224,9 @@ export function ProfileContent({ user }: ProfileContentProps) {
                         <FormControl>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value ? "active" : "inactive"}
+                            defaultValue={
+                              field.value === "active" ? "active" : "inactive"
+                            }
                           >
                             <SelectTrigger className="w-full">
                               <SelectValue placeholder="Selecione o status da clinica" />
