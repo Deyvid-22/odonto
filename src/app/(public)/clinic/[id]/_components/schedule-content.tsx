@@ -89,13 +89,22 @@ export function ScheduleContent({ clinic }: SheduleContentProps) {
 
         const times = clinic.times || [];
 
-        const finelSlots = times.map((time) => {
+        const finalSlots = times.map((time) => {
           return {
             time: time,
             available: !blocked.includes(time),
           };
         });
-        setAvailableTimeSlots(finelSlots);
+
+        setAvailableTimeSlots(finalSlots);
+
+        const stilAvailable = finalSlots.find(
+          (slot) => slot.time === selectedTime && slot.available
+        );
+
+        if (!stilAvailable) {
+          setSelectedTime("");
+        }
       });
     }
   }, [selectedDate, clinic.times, fetchBlockedTimes, selectedTime]);
