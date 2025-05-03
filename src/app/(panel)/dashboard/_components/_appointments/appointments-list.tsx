@@ -1,11 +1,15 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Prisma } from "@prisma/client";
+import { Button } from "@/components/ui/button";
+import { Eye, X } from "lucide-react";
+import { cancelAppontments } from "../../_actions/cancel-appontments";
+import { toast } from "sonner";
 
 type AppointmentWithService = Prisma.AppointmentGetPayload<{
   include: {
@@ -20,8 +24,9 @@ interface AppointmentsListProps {
 export function AppointmentsList({ times }: AppointmentsListProps) {
   const searchParams = useSearchParams();
   const date = searchParams.get("date");
+  const queryClient = useQueryClient();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["get-appointments", date],
     queryFn: async () => {
       let activeDate = date;
@@ -45,6 +50,8 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
 
       return json;
     },
+    staleTime: 20000,
+    refetchInterval: 60000,
   });
 
   // Monta occupantMap slot > appointment
@@ -73,6 +80,19 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
     }
   }
 
+  async function handleCancelAppointment(appointment: string) {
+    const response = await cancelAppontments({
+      appointmentId: appointment,
+    });
+
+    if (response.error) {
+      toast.error(response.error);
+    }
+    queryClient.invalidateQueries({ queryKey: ["get-appointments"] });
+    refetch();
+    toast.success("Agendamento cancelado com sucesso!");
+  }
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -89,7 +109,6 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
             <p>Carregando agenda...</p>
           ) : (
             times.map((slot) => {
-              // ocupantMap["15:00"]
               const occupant = occupantMap[slot];
 
               if (occupant) {
@@ -103,6 +122,19 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
                       <div className="font-semibold">{occupant.name}</div>
                       <div className="text-sm text-gray-500">
                         {occupant.phone}
+                      </div>
+                    </div>
+                    <div className="ml-auto">
+                      <div className="flex">
+                        <Button variant="ghost">
+                          <Eye />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleCancelAppointment(occupant.id)}
+                        >
+                          <X />
+                        </Button>
                       </div>
                     </div>
                   </div>
