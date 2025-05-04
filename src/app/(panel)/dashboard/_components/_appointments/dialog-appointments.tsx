@@ -5,7 +5,7 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import { AppointmentWithService } from "./appointments-list";
-import { format } from "date-fns";
+
 import { formatCurrency } from "@/utils/format-currency";
 
 interface DialogAppointmentsProps {
@@ -27,8 +27,13 @@ export function DialogAppointments({ appointmentId }: DialogAppointmentsProps) {
             <span className="font-bold">Horário:</span> {appointmentId.time}
           </p>
           <p>
-            <span className="font-bold">Data:</span>{" "}
-            {format(appointmentId.appointmentDate, "dd/MM/yyyy")}
+            <span className="font-bold">Data de agendamento:</span>{" "}
+            {new Intl.DateTimeFormat("pt-BR", {
+              timeZone: "UTC",
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }).format(appointmentId.appointmentDate)}
           </p>
           <p>
             <span className="font-semibold">Nome:</span> {appointmentId.name}

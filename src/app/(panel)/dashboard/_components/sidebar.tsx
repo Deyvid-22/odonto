@@ -75,7 +75,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <SidebarLink
               href="/dashboard/services"
               icon={<Folder className="w-5 h-5" />}
-              label="Agendamentos"
+              label="Serviços"
               pathname={pathname}
               isCollapsed={isCollapsed}
             />
@@ -111,7 +111,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <SidebarLink
                 href="/dashboard/services"
                 icon={<Folder className="w-5 h-5" />}
-                label="Agendamentos"
+                label="Serviços"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
               />
