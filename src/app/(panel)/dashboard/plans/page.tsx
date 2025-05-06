@@ -16,7 +16,7 @@ export default async function Plans() {
       {subscription?.status === "active" && (
         <div className="flex flex-col items-center justify-center h-screen">
           <h1 className="text-2xl font-bold text-gray-600">
-            Voce ja possui uma assinatura ativa
+            Você ja possui uma assinatura ativa
           </h1>
         </div>
       )}

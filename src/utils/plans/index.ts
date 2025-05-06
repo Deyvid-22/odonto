@@ -34,8 +34,8 @@ export const subscriptionPlans = [
     id: "PROFESSIONAL",
     name: "Profissional",
     description: "Ideal para clinicas grandes",
-    oldPrice: "R$59,90",
-    price: "R$38,90",
+    oldPrice: "R$110,90",
+    price: "R$98,90",
 
     features: [
       `Até ${PLANS["PROFESSIONAL"].maxServices} serviços`,
