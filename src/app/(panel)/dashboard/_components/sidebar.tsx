@@ -34,7 +34,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen w-full">
       <aside
         className={clsx(
-          "flex flex-col border-r bg-background transation-all duration-300 p-4 h-full",
+          "bg-white flex flex-col border-r transation-all duration-300 p-4 h-full",
           {
             "w-20": isCollapsed,
             "w-64": !isCollapsed,

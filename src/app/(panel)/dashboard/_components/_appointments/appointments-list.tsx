@@ -102,7 +102,7 @@ export function AppointmentsList({ times }: AppointmentsListProps) {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <Card>
+      <Card className="">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-xl md:text-2xl font-bold">
             Agendamentos
