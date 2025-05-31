@@ -2,12 +2,12 @@ export type PlanDetailsProps = {
   maxServices: number;
 };
 
-export type PlanProps = {
+export type PlansProps = {
   BASIC: PlanDetailsProps;
   PROFESSIONAL: PlanDetailsProps;
 };
 
-export const PLANS: PlanProps = {
+export const PLANS: PlansProps = {
   BASIC: {
     maxServices: 3,
   },

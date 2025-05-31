@@ -1,22 +1,17 @@
-import { DefaultSession } from "next-auth";
-
 declare module "next-auth" {
   interface Session {
-    user: DefaultSession["user"];
+    user: {
+      id: string;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      stripe_customer_id?: string;
+      times?: string[];
+      adress?: string;
+      phone?: string;
+      status: boolean;
+      createdAt: string;
+      updatedAt: string;
+    };
   }
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified?: null | string | boolean;
-  image?: string;
-  stripe_customer_id?: string;
-  times?: string[];
-  adress?: string;
-  phone?: string;
-  status: boolean;
-  createdAt: string;
-  updatedAt: string;
 }
