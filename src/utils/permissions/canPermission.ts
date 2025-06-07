@@ -6,6 +6,7 @@ import prisma from "@/lib/prisma";
 import { canCreateService } from "./canCreateService";
 
 export type PLAN_PROP = "BASIC" | "PROFESSIONAL" | "TRIAL" | "EXPIRED";
+type typeCheck = "service";
 
 export interface ResultPermissionProp {
   hasPermission: boolean;
@@ -15,7 +16,7 @@ export interface ResultPermissionProp {
 }
 
 interface CanPermissionProps {
-  type: string;
+  type: typeCheck;
 }
 
 export async function canPermission({

@@ -12,13 +12,21 @@ import { formatCurrency } from "@/utils/format-currency";
 import { deleteService } from "../_actions/delete-service";
 import { toast } from "sonner";
 
+import { ResultPermissionProp } from "@/utils/permissions/canPermission";
+import Link from "next/link";
+
 interface ServicesListProps {
   services: Service[];
+  permission: ResultPermissionProp;
 }
 
-export function ServicesList({ services }: ServicesListProps) {
+export function ServicesList({ services, permission }: ServicesListProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editService, setEditService] = useState<null | Service>(null);
+
+  const serviceList = permission.hasPermission
+    ? services
+    : services.slice(0, 3);
 
   async function handleDeleteService(serviceId: string) {
     const response = await deleteService({ serviceId });
@@ -52,11 +60,18 @@ export function ServicesList({ services }: ServicesListProps) {
             <CardTitle className="text-2xl md:text-2xl font-bold">
               Serviços
             </CardTitle>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="h-4 w-4" />
-              </Button>
-            </DialogTrigger>
+            {permission.hasPermission && (
+              <DialogTrigger asChild>
+                <Button>
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+            )}
+            {!permission.hasPermission && (
+              <Link href="/dashboard/services/new" className="text-red-500">
+                Limite de serviços excedido
+              </Link>
+            )}
             <DialogContent
               onInteractOutside={(e) => {
                 e.preventDefault();
@@ -89,7 +104,7 @@ export function ServicesList({ services }: ServicesListProps) {
 
           <CardContent>
             <section className="space-y-4 mt-5">
-              {services.map((service) => (
+              {serviceList.map((service) => (
                 <article
                   key={service.id}
                   className="flex flex-row items-center justify-between"
