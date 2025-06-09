@@ -1,7 +1,7 @@
 import { Footer } from "./_components/footer";
 import { Header } from "./_components/header";
 import { Hero } from "./_components/hero";
-import { Professional } from "./_components/professional";
+import { Professionals as Professional } from "./_components/professional";
 import { getProfessionals } from "./_data-acess/get-professional";
 
 export const revalidate = 0;

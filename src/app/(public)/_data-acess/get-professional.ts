@@ -8,7 +8,11 @@ export async function getProfessionals() {
       where: {
         status: true,
       },
+      include: {
+        subscription: true,
+      },
     });
+
     return professionals;
   } catch {
     return [];
