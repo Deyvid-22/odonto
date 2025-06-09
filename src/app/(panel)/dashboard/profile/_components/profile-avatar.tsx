@@ -5,6 +5,8 @@ import { ChangeEvent, useState } from "react";
 import notImage from "../../../../../../public/foto1.png";
 import { Loader, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { updateProfileAvatar } from "../_actions/update-avatar";
+import { useSession } from "next-auth/react";
 
 interface AvatarProfileProp {
   avatarUrl: string | null;
@@ -14,6 +16,8 @@ interface AvatarProfileProp {
 export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProp) {
   const [previewImage, setPreviewImage] = useState(avatarUrl);
   const [loading, setLoading] = useState(false);
+
+  const { update } = useSession();
 
   async function handleChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
@@ -28,8 +32,16 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProp) {
       const newFilename = `${userId}`;
       const newFile = new File([image], newFilename, { type: image.type });
 
-      await uploadImage(newFile);
-
+      const imagUrl = await uploadImage(newFile);
+      if (!imagUrl || imagUrl === "") {
+        toast.error("Erro ao enviar imagem");
+        return;
+      }
+      setPreviewImage(imagUrl);
+      await updateProfileAvatar({ avataUrl: imagUrl });
+      await update({
+        image: imagUrl,
+      });
       setLoading(false);
     }
   }
@@ -58,7 +70,7 @@ export function AvatarProfile({ avatarUrl, userId }: AvatarProfileProp) {
       }
 
       toast("Imagem alterada com sucesso!");
-      return data.secure_url as string; // caso você queira pegar a URL da imagem no Cloudinary
+      return data.secure_url as string;
     } catch (error) {
       console.error(error);
       toast.error("Ocorreu um erro ao enviar a imagem");

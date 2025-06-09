@@ -37,7 +37,7 @@ export function Header() {
   ];
 
   async function hanldeLogin() {
-    await HandleRegister("github");
+    await HandleRegister("google");
   }
 
   const NavLinks = () => (

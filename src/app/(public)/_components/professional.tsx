@@ -3,6 +3,7 @@ import Image from "next/image";
 import fotoImg from "../../../../public/foto1.png";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+
 import { User } from "@prisma/client";
 
 interface ProfessionalProps {
@@ -29,15 +30,14 @@ export function Professional({ professionals }: ProfessionalProps) {
                       className="object-cover"
                     />
                   </div>
-                  <div className="p-4 space-y-4">
+                  <div className="p-4 space-y-4 min-h-[120px] flex flex-col justify-between">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-sm text-gray-500">
-                          Clinica centro
+                        <h3 className="line-clamp-2 text-sm text-gray-500">
+                          {clinic.name}
                         </h3>
                         <p>{clinic.address ?? "Sem Endereço não informado"}</p>
                       </div>
-                      <div className="w-2.5 h-2.5 rounded-full  bg-green-500"></div>
                     </div>
                   </div>
                   <Link

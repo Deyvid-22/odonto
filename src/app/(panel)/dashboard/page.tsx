@@ -32,7 +32,7 @@ export default async function Dashboard() {
         <LabelSubscription expired={true} />
       )}
       {subscription?.subscriptionStatus === "TRIAL" && (
-        <div className="bg-green-300 text-white text-sm md:text-base px-3 py-2 my-4 rounded-md flex flex-col md:flex-row justify-between gap-2">
+        <div className="bg-green-600 text-white text-sm md:text-base px-3 py-2 my-4 rounded-md flex flex-col md:flex-row justify-between gap-2">
           <p>{subscription?.message}</p>
         </div>
       )}
