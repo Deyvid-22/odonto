@@ -58,7 +58,7 @@ export function Professionals({ professionals }: ProfessionalsProps) {
                   </div>
 
                   <Link
-                    href={`/clinica/${clinic.id}`}
+                    href={`/clinic/${clinic.id}`}
                     target="_blank"
                     className="w-full bg-emerald-500 hover:bg-emerald-400 text-white flex items-center justify-center py-2 rounded-md text-sm md:text-base font-medium"
                   >
