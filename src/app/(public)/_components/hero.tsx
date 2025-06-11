@@ -15,7 +15,10 @@ export function Hero() {
               Nós somos uma plataforma para profissionais de saúde com foco em
               agilizar seu atendimento de forma simples e organizada
             </p>
-            <Button className="w-fit px-5 font-bold bg-emerald-500 hover:bg-emerald-400">
+            <Button
+              className="w-fit px-5 font-bold bg-emerald-500 hover:bg-emerald-400"
+              onClick={() => (window.location.href = "/profesional")}
+            >
               Encontre uma clinica
             </Button>
           </article>
