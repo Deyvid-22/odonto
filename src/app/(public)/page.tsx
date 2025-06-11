@@ -8,15 +8,15 @@ export const revalidate = 0;
 
 export default async function Home() {
   const professionals = await getProfessionals();
-
+  console.log(professionals);
   return (
     <main className="flex min-h-screen flex-col">
       <Header />
       <div>
         <Hero />
-        {professionals.map((professional) => (
-          <Professional key={professional.id} professionals={[professional]} />
-        ))}
+
+        <Professional professionals={professionals} />
+
         <Footer />
       </div>
     </main>

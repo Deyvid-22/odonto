@@ -23,16 +23,16 @@ export function Header() {
 
   const navItems = [
     {
+      label: "Home",
+      href: "/",
+    },
+    {
       label: "Profissionais",
-      href: "#",
+      href: "/profesional",
     },
     {
-      label: "Sobre",
-      href: "#t",
-    },
-    {
-      label: "Contato",
-      href: "#tu",
+      label: "Preços",
+      href: "/pricing",
     },
   ];
 
